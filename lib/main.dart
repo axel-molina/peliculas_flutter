@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas/providers/movies_provider.dart';
 import 'package:peliculas/screens/screens.dart'; //en esta ruta estan todas las screens que tendra la app
+import 'package:provider/provider.dart'; 
 
-void main() => runApp(MyApp());
+void main() => runApp(AppState()); //llamamos appstate para que se cree primero
+
+class AppState extends StatelessWidget {
+  // clase para inicializar la instacia de películas
+  const AppState({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => MoviesProvider(),
+          lazy: false, // desactiva el comportamiento por defecto de esperar a llamar la instancia cuando lo necesite (lo carga de una con la app)
+        )
+      ], // lista de providers (por ahora solo necesito uno)
+      child: MyApp(), // luego se ejecuta el resto de la app
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
   final primary = const Color(0xff915dff);
